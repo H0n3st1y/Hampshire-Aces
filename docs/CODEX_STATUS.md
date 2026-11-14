@@ -61,7 +61,11 @@ backend/.venv/Scripts/python -m uvicorn backend.main:app --host 127.0.0.1 --port
 
 To force emergency fallbacks, use `AGENT_MODE=offline`. Explicit hold/increase/reduce still exercise the real gate and simulator. Local modules require no network. Each agent call has a default3-second process deadline, including imports; output limit64KiB; maximum4 active workers. Configurable `AGENT_TIMEOUT_SECONDS` range0.1–10 seconds. Warnings disclose all fallbacks.
 
-No git repository existed; no branch was switched or reset. `backend/scripts/snapshot.py` saved and verified `backend/releases/known-working-backend-v1.zip` (54 source/contract/document files) plus its SHA256, excluding environment, caches, logs, and research. ZIP integrity and every source hash were checked. It includes observed Claude sources as a read-only backup, not a competing implementation. Restore into a separate folder and follow README launch steps.
+No git repository existed at backend setup; no shared branch was switched or reset. `backend/scripts/snapshot.py` saved and verified `backend/releases/known-working-backend-v1.zip` (54 source/contract/document files) plus its SHA256, excluding environment, caches, logs, and research. ZIP integrity and every source hash were checked. It includes observed Claude sources as a read-only backup, not a competing implementation. Restore into a separate folder and follow README launch steps.
+
+## GitHub publication
+
+At the user's explicit request, initialized this folder as a Git repository and pushed all 60 project/source files to [H0n3st1y/Hampshire-Aces](https://github.com/H0n3st1y/Hampshire-Aces), branch `main`, initial source commit `dcec045`. Local `main` tracks `origin/main`. Root `.gitignore` excludes local environments, dependency folders, caches, logs, duplicate release archives, and local credential configuration. Claude's agent sources, research notes, all planning documents, contracts, and tests are included. The pre-publication source review found no credential files or suspicious literal secrets. Repository access was verified; no remote history was overwritten or force-pushed.
 
 ## Frontend teammate coordination
 
