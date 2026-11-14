@@ -1,0 +1,180 @@
+{
+  "$defs": {
+    "Headline": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "published_at": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Published At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "published_at"
+      ],
+      "title": "Headline",
+      "type": "object"
+    },
+    "Portfolio": {
+      "additionalProperties": false,
+      "properties": {
+        "cash_cents": {
+          "minimum": 0,
+          "title": "Cash Cents",
+          "type": "integer"
+        },
+        "positions": {
+          "items": {
+            "$ref": "#/$defs/Position"
+          },
+          "title": "Positions",
+          "type": "array"
+        },
+        "total_value_cents": {
+          "exclusiveMinimum": 0,
+          "title": "Total Value Cents",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "cash_cents",
+        "positions",
+        "total_value_cents"
+      ],
+      "title": "Portfolio",
+      "type": "object"
+    },
+    "Position": {
+      "additionalProperties": false,
+      "properties": {
+        "symbol": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Symbol",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "quantity": {
+          "minimum": 0,
+          "title": "Quantity",
+          "type": "integer"
+        },
+        "price_cents": {
+          "exclusiveMinimum": 0,
+          "title": "Price Cents",
+          "type": "integer"
+        },
+        "value_cents": {
+          "minimum": 0,
+          "title": "Value Cents",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "symbol",
+        "name",
+        "quantity",
+        "price_cents",
+        "value_cents"
+      ],
+      "title": "Position",
+      "type": "object"
+    },
+    "Scenario": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "title": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Title",
+          "type": "string"
+        },
+        "as_of": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "As Of",
+          "type": "string"
+        },
+        "synthetic": {
+          "const": true,
+          "title": "Synthetic",
+          "type": "boolean"
+        },
+        "summary": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Summary",
+          "type": "string"
+        },
+        "headlines": {
+          "items": {
+            "$ref": "#/$defs/Headline"
+          },
+          "title": "Headlines",
+          "type": "array"
+        },
+        "initial_portfolio": {
+          "$ref": "#/$defs/Portfolio"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "as_of",
+        "synthetic",
+        "summary",
+        "headlines",
+        "initial_portfolio"
+      ],
+      "title": "Scenario",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1",
+      "default": "1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scenarios": {
+      "items": {
+        "$ref": "#/$defs/Scenario"
+      },
+      "title": "Scenarios",
+      "type": "array"
+    }
+  },
+  "required": [
+    "scenarios"
+  ],
+  "title": "ScenarioList",
+  "type": "object"
+}

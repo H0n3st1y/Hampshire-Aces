@@ -1,0 +1,4 @@
+# Verified offline runtime; Python 3.12. Install inside the backend virtual environment.
+fastapi==0.116.1
+pydantic==2.11.7
+uvicorn==0.35.0

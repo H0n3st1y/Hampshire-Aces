@@ -1,0 +1,142 @@
+{
+  "schema_version": "1",
+  "scenario_id": "quiet_market",
+  "evaluation_id": "example-allowed",
+  "synthetic": true,
+  "as_of": "2026-11-14T12:00:00Z",
+  "analysis_mode": "fixture",
+  "policy_mode": "rule_based",
+  "specialists": [
+    {
+      "role": "sentiment",
+      "summary": "Emergency fallback: no sentiment conclusion is available.",
+      "evidence_ids": [],
+      "limitations": [
+        "Neutral placeholder; no model or headline analysis ran successfully."
+      ]
+    },
+    {
+      "role": "risk",
+      "summary": "The full proposal passes independent checks for whole shares, available cash/holdings, valid prices, and the 20% post-cost position cap.",
+      "evidence_ids": [
+        "prices:BETA",
+        "portfolio:initial"
+      ],
+      "limitations": [
+        "Illustrative simulator settings, not personalized investment advice.",
+        "The cap constrains trades and cannot prevent future price losses."
+      ]
+    },
+    {
+      "role": "strategy",
+      "summary": "User selected increase by 5 whole shares.",
+      "evidence_ids": [
+        "portfolio:initial"
+      ],
+      "limitations": [
+        "Explicit user choice; no strategy model selected this proposal."
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "beta:routine",
+      "kind": "headline",
+      "label": "Synthetic headline",
+      "description": "SYNTHETIC: BETA publishes a routine operational update with no material change."
+    },
+    {
+      "id": "beta:schedule",
+      "kind": "headline",
+      "label": "Synthetic headline",
+      "description": "SYNTHETIC: BETA confirms its previously announced fictional reporting schedule."
+    },
+    {
+      "id": "prices:BETA",
+      "kind": "price_series",
+      "label": "Synthetic BETA daily prices",
+      "description": "Daily closing prices in USD cents, oldest first through the decision time: [9950, 9970, 9980, 10010, 9990, 10000]. No future prices are included."
+    },
+    {
+      "id": "portfolio:initial",
+      "kind": "portfolio",
+      "label": "Simulated starting portfolio",
+      "description": "Fictional cash and whole-share positions valued at decision-time prices. Every comparison restarts here."
+    }
+  ],
+  "metrics": {
+    "daily_volatility": 0.0018729798695717188,
+    "position_weight_before": 0.1,
+    "position_weight_proposed": 0.15001500150015,
+    "lookback_days": 5
+  },
+  "proposal": {
+    "type": "buy",
+    "symbol": "BETA",
+    "quantity": 5,
+    "reason": "User selected increase by 5 whole shares."
+  },
+  "gate": {
+    "status": "allowed",
+    "rule_ids": [
+      "ALL_CHECKS_PASSED"
+    ],
+    "explanation": "The full proposal passes independent checks for whole shares, available cash/holdings, valid prices, and the 20% post-cost position cap.",
+    "max_position_weight": 0.2
+  },
+  "portfolio_before": {
+    "cash_cents": 900000,
+    "positions": [
+      {
+        "symbol": "BETA",
+        "name": "Fictional Beta Works",
+        "quantity": 10,
+        "price_cents": 10000,
+        "value_cents": 100000
+      }
+    ],
+    "total_value_cents": 1000000
+  },
+  "portfolio_after_action": {
+    "cash_cents": 849900,
+    "positions": [
+      {
+        "symbol": "BETA",
+        "name": "Fictional Beta Works",
+        "quantity": 15,
+        "price_cents": 10000,
+        "value_cents": 150000
+      }
+    ],
+    "total_value_cents": 999900
+  },
+  "comparison": {
+    "end_value_if_executed_cents": 1001400,
+    "end_value_if_hold_cents": 1001000,
+    "execution_cost_cents": 100,
+    "explanation": "The action and hold portfolios are marked at the same synthetic next-step price. The action includes one fixed $1.00 cost; hold has no cost. This outcome was hidden from the decision-time agents."
+  },
+  "warnings": [
+    "Synthetic scenarios and simulated USD only. Every evaluation restarts from the same initial portfolio.",
+    "Sentiment emergency fallback: backend offline mode is enabled.",
+    "Coach emergency fallback: backend offline mode is enabled."
+  ],
+  "explanation_mode": "template",
+  "lesson": {
+    "concept": "Independent risk controls",
+    "explanation": "The independent gate recorded 'allowed'. The full proposal passes independent checks for whole shares, available cash/holdings, valid prices, and the 20% post-cost position cap. The simulated hold outcome is 10010.00 USD. Costs and market moves affect simulated outcomes. The 20% concentration limit cannot prevent all losses.",
+    "question": "What does the simulator's 20% position limit do?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Limits concentration when approving a trade; losses can still occur."
+      },
+      {
+        "id": "b",
+        "text": "Guarantees that an approved trade makes money."
+      }
+    ],
+    "correct_choice_id": "a",
+    "feedback": "The gate checks a documented limit independently of proposals. It does not predict or guarantee returns."
+  }
+}

@@ -1,0 +1,16 @@
+# Local environments, dependencies, and caches
+.venv/
+venv/
+node_modules/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local runtime output and duplicate source archives
+.logs/
+backend/releases/
+
+# Local credentials; example configuration can be shared
+.env
+.env.*
+!.env.example

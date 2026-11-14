@@ -1,0 +1,142 @@
+{
+  "schema_version": "1",
+  "scenario_id": "momentum_concentration",
+  "evaluation_id": "example-blocked",
+  "synthetic": true,
+  "as_of": "2026-11-14T12:00:00Z",
+  "analysis_mode": "fixture",
+  "policy_mode": "rule_based",
+  "specialists": [
+    {
+      "role": "sentiment",
+      "summary": "Emergency fallback: no sentiment conclusion is available.",
+      "evidence_ids": [],
+      "limitations": [
+        "Neutral placeholder; no model or headline analysis ran successfully."
+      ]
+    },
+    {
+      "role": "risk",
+      "summary": "A single-stock position would exceed 20% of the post-trade portfolio value after the fixed $1.00 cost. The proposal is blocked in full, with no resizing.",
+      "evidence_ids": [
+        "prices:ALFA",
+        "portfolio:initial"
+      ],
+      "limitations": [
+        "Illustrative simulator settings, not personalized investment advice.",
+        "The cap constrains trades and cannot prevent future price losses."
+      ]
+    },
+    {
+      "role": "strategy",
+      "summary": "User selected increase by 5 whole shares.",
+      "evidence_ids": [
+        "portfolio:initial"
+      ],
+      "limitations": [
+        "Explicit user choice; no strategy model selected this proposal."
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "alfa:expansion",
+      "kind": "headline",
+      "label": "Synthetic headline",
+      "description": "SYNTHETIC: ALFA announces a fictional expansion after a strong pilot."
+    },
+    {
+      "id": "alfa:demand",
+      "kind": "headline",
+      "label": "Synthetic headline",
+      "description": "SYNTHETIC: A fictional trade bulletin reports rising interest in ALFA's products."
+    },
+    {
+      "id": "prices:ALFA",
+      "kind": "price_series",
+      "label": "Synthetic ALFA daily prices",
+      "description": "Daily closing prices in USD cents, oldest first through the decision time: [10000, 10100, 9900, 10400, 9800, 10000]. No future prices are included."
+    },
+    {
+      "id": "portfolio:initial",
+      "kind": "portfolio",
+      "label": "Simulated starting portfolio",
+      "description": "Fictional cash and whole-share positions valued at decision-time prices. Every comparison restarts here."
+    }
+  ],
+  "metrics": {
+    "daily_volatility": 0.041186879677189536,
+    "position_weight_before": 0.18,
+    "position_weight_proposed": 0.23002300230023,
+    "lookback_days": 5
+  },
+  "proposal": {
+    "type": "buy",
+    "symbol": "ALFA",
+    "quantity": 5,
+    "reason": "User selected increase by 5 whole shares."
+  },
+  "gate": {
+    "status": "blocked",
+    "rule_ids": [
+      "POSITION_LIMIT"
+    ],
+    "explanation": "A single-stock position would exceed 20% of the post-trade portfolio value after the fixed $1.00 cost. The proposal is blocked in full, with no resizing.",
+    "max_position_weight": 0.2
+  },
+  "portfolio_before": {
+    "cash_cents": 820000,
+    "positions": [
+      {
+        "symbol": "ALFA",
+        "name": "Fictional Alfa Labs",
+        "quantity": 18,
+        "price_cents": 10000,
+        "value_cents": 180000
+      }
+    ],
+    "total_value_cents": 1000000
+  },
+  "portfolio_after_action": {
+    "cash_cents": 820000,
+    "positions": [
+      {
+        "symbol": "ALFA",
+        "name": "Fictional Alfa Labs",
+        "quantity": 18,
+        "price_cents": 10000,
+        "value_cents": 180000
+      }
+    ],
+    "total_value_cents": 1000000
+  },
+  "comparison": {
+    "end_value_if_executed_cents": null,
+    "end_value_if_hold_cents": 973000,
+    "execution_cost_cents": 0,
+    "explanation": "No simulated action executed. The hold comparison uses the synthetic next-step price; the starting holdings and cash are unchanged."
+  },
+  "warnings": [
+    "Synthetic scenarios and simulated USD only. Every evaluation restarts from the same initial portfolio.",
+    "Sentiment emergency fallback: backend offline mode is enabled.",
+    "Coach emergency fallback: backend offline mode is enabled."
+  ],
+  "explanation_mode": "template",
+  "lesson": {
+    "concept": "Independent risk controls",
+    "explanation": "The independent gate recorded 'blocked'. A single-stock position would exceed 20% of the post-trade portfolio value after the fixed $1.00 cost. The proposal is blocked in full, with no resizing. The simulated hold outcome is 9730.00 USD. Costs and market moves affect simulated outcomes. The 20% concentration limit cannot prevent all losses.",
+    "question": "What does the simulator's 20% position limit do?",
+    "choices": [
+      {
+        "id": "a",
+        "text": "Limits concentration when approving a trade; losses can still occur."
+      },
+      {
+        "id": "b",
+        "text": "Guarantees that an approved trade makes money."
+      }
+    ],
+    "correct_choice_id": "a",
+    "feedback": "The gate checks a documented limit independently of proposals. It does not predict or guarantee returns."
+  }
+}

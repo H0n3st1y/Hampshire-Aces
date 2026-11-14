@@ -1,0 +1,470 @@
+{
+  "$defs": {
+    "Comparison": {
+      "additionalProperties": false,
+      "properties": {
+        "end_value_if_executed_cents": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "End Value If Executed Cents"
+        },
+        "end_value_if_hold_cents": {
+          "minimum": 0,
+          "title": "End Value If Hold Cents",
+          "type": "integer"
+        },
+        "execution_cost_cents": {
+          "minimum": 0,
+          "title": "Execution Cost Cents",
+          "type": "integer"
+        },
+        "explanation": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Explanation",
+          "type": "string"
+        }
+      },
+      "required": [
+        "end_value_if_executed_cents",
+        "end_value_if_hold_cents",
+        "execution_cost_cents",
+        "explanation"
+      ],
+      "title": "Comparison",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "headline",
+            "price_series",
+            "portfolio"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "label": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "description": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "label",
+        "description"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Gate": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "allowed",
+            "blocked",
+            "unavailable"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "rule_ids": {
+          "items": {
+            "maxLength": 4000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Rule Ids",
+          "type": "array"
+        },
+        "explanation": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Explanation",
+          "type": "string"
+        },
+        "max_position_weight": {
+          "const": 0.2,
+          "default": 0.2,
+          "title": "Max Position Weight",
+          "type": "number"
+        }
+      },
+      "required": [
+        "status",
+        "rule_ids",
+        "explanation"
+      ],
+      "title": "Gate",
+      "type": "object"
+    },
+    "Metrics": {
+      "additionalProperties": false,
+      "properties": {
+        "daily_volatility": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Daily Volatility"
+        },
+        "position_weight_before": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Position Weight Before",
+          "type": "number"
+        },
+        "position_weight_proposed": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Position Weight Proposed"
+        },
+        "lookback_days": {
+          "minimum": 0,
+          "title": "Lookback Days",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "daily_volatility",
+        "position_weight_before",
+        "position_weight_proposed",
+        "lookback_days"
+      ],
+      "title": "Metrics",
+      "type": "object"
+    },
+    "Portfolio": {
+      "additionalProperties": false,
+      "properties": {
+        "cash_cents": {
+          "minimum": 0,
+          "title": "Cash Cents",
+          "type": "integer"
+        },
+        "positions": {
+          "items": {
+            "$ref": "#/$defs/Position"
+          },
+          "title": "Positions",
+          "type": "array"
+        },
+        "total_value_cents": {
+          "exclusiveMinimum": 0,
+          "title": "Total Value Cents",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "cash_cents",
+        "positions",
+        "total_value_cents"
+      ],
+      "title": "Portfolio",
+      "type": "object"
+    },
+    "Position": {
+      "additionalProperties": false,
+      "properties": {
+        "symbol": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Symbol",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "quantity": {
+          "minimum": 0,
+          "title": "Quantity",
+          "type": "integer"
+        },
+        "price_cents": {
+          "exclusiveMinimum": 0,
+          "title": "Price Cents",
+          "type": "integer"
+        },
+        "value_cents": {
+          "minimum": 0,
+          "title": "Value Cents",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "symbol",
+        "name",
+        "quantity",
+        "price_cents",
+        "value_cents"
+      ],
+      "title": "Position",
+      "type": "object"
+    },
+    "Proposal": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "hold",
+            "buy",
+            "sell"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "symbol": {
+          "anyOf": [
+            {
+              "maxLength": 4000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Symbol"
+        },
+        "quantity": {
+          "minimum": 0,
+          "title": "Quantity",
+          "type": "integer"
+        },
+        "reason": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "symbol",
+        "quantity",
+        "reason"
+      ],
+      "title": "Proposal",
+      "type": "object"
+    },
+    "Specialist": {
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "enum": [
+            "sentiment",
+            "risk",
+            "strategy"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "summary": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Summary",
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "maxLength": 4000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "limitations": {
+          "items": {
+            "maxLength": 4000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "role",
+        "summary",
+        "evidence_ids",
+        "limitations"
+      ],
+      "title": "Specialist",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Internal-only decision context; never added to the public response.",
+  "properties": {
+    "schema_version": {
+      "const": "1",
+      "default": "1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scenario_id": {
+      "maxLength": 4000,
+      "minLength": 1,
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "evaluation_id": {
+      "maxLength": 4000,
+      "minLength": 1,
+      "title": "Evaluation Id",
+      "type": "string"
+    },
+    "synthetic": {
+      "const": true,
+      "default": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "as_of": {
+      "maxLength": 4000,
+      "minLength": 1,
+      "title": "As Of",
+      "type": "string"
+    },
+    "analysis_mode": {
+      "enum": [
+        "model",
+        "fixture"
+      ],
+      "title": "Analysis Mode",
+      "type": "string"
+    },
+    "policy_mode": {
+      "enum": [
+        "rule_based",
+        "rl"
+      ],
+      "title": "Policy Mode",
+      "type": "string"
+    },
+    "specialists": {
+      "items": {
+        "$ref": "#/$defs/Specialist"
+      },
+      "title": "Specialists",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "metrics": {
+      "$ref": "#/$defs/Metrics"
+    },
+    "proposal": {
+      "$ref": "#/$defs/Proposal"
+    },
+    "gate": {
+      "$ref": "#/$defs/Gate"
+    },
+    "portfolio_before": {
+      "$ref": "#/$defs/Portfolio"
+    },
+    "portfolio_after_action": {
+      "$ref": "#/$defs/Portfolio"
+    },
+    "comparison": {
+      "$ref": "#/$defs/Comparison"
+    },
+    "warnings": {
+      "items": {
+        "maxLength": 4000,
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    },
+    "action": {
+      "enum": [
+        "strategy",
+        "hold",
+        "increase",
+        "reduce"
+      ],
+      "title": "Action",
+      "type": "string"
+    },
+    "sentiment_label": {
+      "enum": [
+        "positive",
+        "negative",
+        "neutral",
+        "mixed",
+        "insufficient"
+      ],
+      "title": "Sentiment Label",
+      "type": "string"
+    }
+  },
+  "required": [
+    "scenario_id",
+    "evaluation_id",
+    "as_of",
+    "analysis_mode",
+    "policy_mode",
+    "specialists",
+    "evidence",
+    "metrics",
+    "proposal",
+    "gate",
+    "portfolio_before",
+    "portfolio_after_action",
+    "comparison",
+    "warnings",
+    "action",
+    "sentiment_label"
+  ],
+  "title": "CoachFacts",
+  "type": "object"
+}

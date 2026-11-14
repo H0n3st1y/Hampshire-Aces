@@ -1,0 +1,111 @@
+{
+  "$defs": {
+    "Choice": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "text"
+      ],
+      "title": "Choice",
+      "type": "object"
+    },
+    "Lesson": {
+      "additionalProperties": false,
+      "properties": {
+        "concept": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Concept",
+          "type": "string"
+        },
+        "explanation": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Explanation",
+          "type": "string"
+        },
+        "question": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Question",
+          "type": "string"
+        },
+        "choices": {
+          "items": {
+            "$ref": "#/$defs/Choice"
+          },
+          "maxItems": 6,
+          "minItems": 2,
+          "title": "Choices",
+          "type": "array"
+        },
+        "correct_choice_id": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Correct Choice Id",
+          "type": "string"
+        },
+        "feedback": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Feedback",
+          "type": "string"
+        }
+      },
+      "required": [
+        "concept",
+        "explanation",
+        "question",
+        "choices",
+        "correct_choice_id",
+        "feedback"
+      ],
+      "title": "Lesson",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "lesson": {
+      "$ref": "#/$defs/Lesson"
+    },
+    "explanation_mode": {
+      "enum": [
+        "template",
+        "model"
+      ],
+      "title": "Explanation Mode",
+      "type": "string"
+    },
+    "warnings": {
+      "items": {
+        "maxLength": 4000,
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "lesson",
+    "explanation_mode",
+    "warnings"
+  ],
+  "title": "CoachResult",
+  "type": "object"
+}

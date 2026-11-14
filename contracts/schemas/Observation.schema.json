@@ -1,0 +1,319 @@
+{
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "headline",
+            "price_series",
+            "portfolio"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "label": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Label",
+          "type": "string"
+        },
+        "description": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "label",
+        "description"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Headline": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "published_at": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Published At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "text",
+        "published_at"
+      ],
+      "title": "Headline",
+      "type": "object"
+    },
+    "Metrics": {
+      "additionalProperties": false,
+      "properties": {
+        "daily_volatility": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Daily Volatility"
+        },
+        "position_weight_before": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Position Weight Before",
+          "type": "number"
+        },
+        "position_weight_proposed": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Position Weight Proposed"
+        },
+        "lookback_days": {
+          "minimum": 0,
+          "title": "Lookback Days",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "daily_volatility",
+        "position_weight_before",
+        "position_weight_proposed",
+        "lookback_days"
+      ],
+      "title": "Metrics",
+      "type": "object"
+    },
+    "PermittedActions": {
+      "additionalProperties": false,
+      "properties": {
+        "symbols": {
+          "items": {
+            "maxLength": 4000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Symbols",
+          "type": "array"
+        },
+        "actions": {
+          "items": {
+            "enum": [
+              "hold",
+              "buy",
+              "sell"
+            ],
+            "type": "string"
+          },
+          "title": "Actions",
+          "type": "array"
+        },
+        "action_quantity": {
+          "exclusiveMinimum": 0,
+          "title": "Action Quantity",
+          "type": "integer"
+        },
+        "max_position_weight": {
+          "const": 0.2,
+          "default": 0.2,
+          "title": "Max Position Weight",
+          "type": "number"
+        },
+        "transaction_cost_cents": {
+          "minimum": 0,
+          "title": "Transaction Cost Cents",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "symbols",
+        "actions",
+        "action_quantity",
+        "transaction_cost_cents"
+      ],
+      "title": "PermittedActions",
+      "type": "object"
+    },
+    "Portfolio": {
+      "additionalProperties": false,
+      "properties": {
+        "cash_cents": {
+          "minimum": 0,
+          "title": "Cash Cents",
+          "type": "integer"
+        },
+        "positions": {
+          "items": {
+            "$ref": "#/$defs/Position"
+          },
+          "title": "Positions",
+          "type": "array"
+        },
+        "total_value_cents": {
+          "exclusiveMinimum": 0,
+          "title": "Total Value Cents",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "cash_cents",
+        "positions",
+        "total_value_cents"
+      ],
+      "title": "Portfolio",
+      "type": "object"
+    },
+    "Position": {
+      "additionalProperties": false,
+      "properties": {
+        "symbol": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Symbol",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "quantity": {
+          "minimum": 0,
+          "title": "Quantity",
+          "type": "integer"
+        },
+        "price_cents": {
+          "exclusiveMinimum": 0,
+          "title": "Price Cents",
+          "type": "integer"
+        },
+        "value_cents": {
+          "minimum": 0,
+          "title": "Value Cents",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "symbol",
+        "name",
+        "quantity",
+        "price_cents",
+        "value_cents"
+      ],
+      "title": "Position",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1",
+      "default": "1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scenario_id": {
+      "maxLength": 4000,
+      "minLength": 1,
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "synthetic": {
+      "const": true,
+      "default": true,
+      "title": "Synthetic",
+      "type": "boolean"
+    },
+    "as_of": {
+      "maxLength": 4000,
+      "minLength": 1,
+      "title": "As Of",
+      "type": "string"
+    },
+    "headlines": {
+      "items": {
+        "$ref": "#/$defs/Headline"
+      },
+      "title": "Headlines",
+      "type": "array"
+    },
+    "historical_prices_cents": {
+      "items": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "title": "Historical Prices Cents",
+      "type": "array"
+    },
+    "portfolio": {
+      "$ref": "#/$defs/Portfolio"
+    },
+    "metrics": {
+      "$ref": "#/$defs/Metrics"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "permitted": {
+      "$ref": "#/$defs/PermittedActions"
+    }
+  },
+  "required": [
+    "scenario_id",
+    "as_of",
+    "headlines",
+    "historical_prices_cents",
+    "portfolio",
+    "metrics",
+    "evidence",
+    "permitted"
+  ],
+  "title": "Observation",
+  "type": "object"
+}

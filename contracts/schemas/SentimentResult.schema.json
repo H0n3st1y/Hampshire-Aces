@@ -1,0 +1,136 @@
+{
+  "$defs": {
+    "HeadlineAssessment": {
+      "additionalProperties": false,
+      "properties": {
+        "headline_id": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Headline Id",
+          "type": "string"
+        },
+        "tone": {
+          "enum": [
+            "positive",
+            "negative",
+            "neutral"
+          ],
+          "title": "Tone",
+          "type": "string"
+        },
+        "source": {
+          "enum": [
+            "fixture_label",
+            "keyword_rules",
+            "model"
+          ],
+          "title": "Source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "headline_id",
+        "tone",
+        "source"
+      ],
+      "title": "HeadlineAssessment",
+      "type": "object"
+    },
+    "Specialist": {
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "enum": [
+            "sentiment",
+            "risk",
+            "strategy"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "summary": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Summary",
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "maxLength": 4000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "limitations": {
+          "items": {
+            "maxLength": 4000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "role",
+        "summary",
+        "evidence_ids",
+        "limitations"
+      ],
+      "title": "Specialist",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "sentiment_label": {
+      "enum": [
+        "positive",
+        "negative",
+        "neutral",
+        "mixed",
+        "insufficient"
+      ],
+      "title": "Sentiment Label",
+      "type": "string"
+    },
+    "headline_assessments": {
+      "items": {
+        "$ref": "#/$defs/HeadlineAssessment"
+      },
+      "title": "Headline Assessments",
+      "type": "array"
+    },
+    "specialist": {
+      "$ref": "#/$defs/Specialist"
+    },
+    "analysis_mode": {
+      "enum": [
+        "model",
+        "fixture"
+      ],
+      "title": "Analysis Mode",
+      "type": "string"
+    },
+    "warnings": {
+      "items": {
+        "maxLength": 4000,
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "sentiment_label",
+    "headline_assessments",
+    "specialist",
+    "analysis_mode",
+    "warnings"
+  ],
+  "title": "SentimentResult",
+  "type": "object"
+}

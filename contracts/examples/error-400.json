@@ -1,0 +1,6 @@
+{
+  "error": {
+    "code": "INVALID_REQUEST",
+    "message": "Unknown synthetic scenario_id."
+  }
+}

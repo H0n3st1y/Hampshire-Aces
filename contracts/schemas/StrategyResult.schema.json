@@ -1,0 +1,130 @@
+{
+  "$defs": {
+    "Proposal": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "hold",
+            "buy",
+            "sell"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "symbol": {
+          "anyOf": [
+            {
+              "maxLength": 4000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Symbol"
+        },
+        "quantity": {
+          "minimum": 0,
+          "title": "Quantity",
+          "type": "integer"
+        },
+        "reason": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "symbol",
+        "quantity",
+        "reason"
+      ],
+      "title": "Proposal",
+      "type": "object"
+    },
+    "Specialist": {
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "enum": [
+            "sentiment",
+            "risk",
+            "strategy"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "summary": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Summary",
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "maxLength": 4000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "limitations": {
+          "items": {
+            "maxLength": 4000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "role",
+        "summary",
+        "evidence_ids",
+        "limitations"
+      ],
+      "title": "Specialist",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "proposal": {
+      "$ref": "#/$defs/Proposal"
+    },
+    "specialist": {
+      "$ref": "#/$defs/Specialist"
+    },
+    "policy_mode": {
+      "enum": [
+        "rule_based",
+        "rl"
+      ],
+      "title": "Policy Mode",
+      "type": "string"
+    },
+    "warnings": {
+      "items": {
+        "maxLength": 4000,
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "proposal",
+    "specialist",
+    "policy_mode",
+    "warnings"
+  ],
+  "title": "StrategyResult",
+  "type": "object"
+}

@@ -1,0 +1,33 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "scenario_id": {
+      "maxLength": 4000,
+      "minLength": 1,
+      "title": "Scenario Id",
+      "type": "string"
+    },
+    "action": {
+      "enum": [
+        "strategy",
+        "hold",
+        "increase",
+        "reduce"
+      ],
+      "title": "Action",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema_version",
+    "scenario_id",
+    "action"
+  ],
+  "title": "EvaluateRequest",
+  "type": "object"
+}
