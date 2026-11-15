@@ -22,7 +22,7 @@ full results are in `research/README.md`.
   `backend.simulation.simulate` adapter. It ran 5 training seeds and was
   evaluated on 400 held-out episodes against the fixed rule and always-hold.
   The artifact `research/artifacts/q_policy_v1.json` (seed 0, pre-declared) is
-  loaded by `strategy.propose` when `AGENTS_POLICY=rl`. It returns
+  loaded by `strategy.propose` by default (unless `AGENTS_POLICY=rule_based`). It returns
   `policy_mode: "rl"` only when that artifact produced the proposal; a missing
   or invalid artifact, missing `action_quantity`, or a state with fewer than 20
   training visits falls back to the rule with a warning.
@@ -100,4 +100,5 @@ backend/.venv/Scripts/python -m research.rl.train
   the "increase" choice on momentum_concentration, and describe the RL policy
   truthfully: trained on synthetic data, lower return but lower drawdown than
   the fixed rule.
-- Nothing has been committed or pushed; the repository is shared on GitHub.
+- Claude's work is on branch `claude/rl-policy` with a pull request into
+  `main`; it is not merged yet.

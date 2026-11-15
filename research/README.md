@@ -1,8 +1,8 @@
 # RL experiment (owned by Claude)
 
-Status: **trained, evaluated, and integrated as an opt-in policy.** The
-backend default stays `AGENTS_POLICY=rule_based`; set `AGENTS_POLICY=rl` to use
-the trained artifact. Results are synthetic and show how the learning works, not
+Status: **trained, evaluated, and the default strategy policy** (the user
+chose RL for the demo). `strategy.propose` uses the trained artifact unless
+`AGENTS_POLICY=rule_based` is set. Results are synthetic and show how the learning works, not
 how it would perform in real markets.
 
 ## What was built
