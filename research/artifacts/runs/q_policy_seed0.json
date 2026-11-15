@@ -1,0 +1,620 @@
+{
+ "format": "tabular_q_v1",
+ "artifact_id": "q_policy_seed0",
+ "actions": [
+  "hold",
+  "buy",
+  "sell"
+ ],
+ "min_state_visits": 20,
+ "q_table": {
+  "mixed|vol=high|w=medium|cash=ok": {
+   "q": [
+    0.021979,
+    -0.001733,
+    -0.007987
+   ],
+   "visits": [
+    108,
+    81,
+    101
+   ]
+  },
+  "mixed|vol=high|w=near_cap|cash=ok": {
+   "q": [
+    -0.082418,
+    -0.096879,
+    -0.102167
+   ],
+   "visits": [
+    146,
+    42,
+    45
+   ]
+  },
+  "mixed|vol=high|w=none|cash=ok": {
+   "q": [
+    0.014333,
+    0.00875,
+    0.034704
+   ],
+   "visits": [
+    384,
+    135,
+    80
+   ]
+  },
+  "mixed|vol=high|w=small|cash=ok": {
+   "q": [
+    -0.022368,
+    -0.01805,
+    0.031742
+   ],
+   "visits": [
+    112,
+    114,
+    201
+   ]
+  },
+  "mixed|vol=low|w=medium|cash=ok": {
+   "q": [
+    -0.023059,
+    -0.027731,
+    -0.01126
+   ],
+   "visits": [
+    59,
+    70,
+    176
+   ]
+  },
+  "mixed|vol=low|w=near_cap|cash=ok": {
+   "q": [
+    -0.065424,
+    -0.053635,
+    -0.064008
+   ],
+   "visits": [
+    157,
+    92,
+    71
+   ]
+  },
+  "mixed|vol=low|w=none|cash=ok": {
+   "q": [
+    0.026624,
+    0.021616,
+    0.024729
+   ],
+   "visits": [
+    413,
+    121,
+    114
+   ]
+  },
+  "mixed|vol=low|w=small|cash=ok": {
+   "q": [
+    0.007055,
+    -0.002681,
+    0.006198
+   ],
+   "visits": [
+    119,
+    91,
+    279
+   ]
+  },
+  "mixed|vol=mid|w=medium|cash=ok": {
+   "q": [
+    -0.079234,
+    -0.076436,
+    -0.058841
+   ],
+   "visits": [
+    69,
+    139,
+    171
+   ]
+  },
+  "mixed|vol=mid|w=near_cap|cash=ok": {
+   "q": [
+    0.011843,
+    -0.057465,
+    -0.014887
+   ],
+   "visits": [
+    165,
+    60,
+    82
+   ]
+  },
+  "mixed|vol=mid|w=none|cash=ok": {
+   "q": [
+    0.010778,
+    -0.008215,
+    0.011311
+   ],
+   "visits": [
+    490,
+    168,
+    160
+   ]
+  },
+  "mixed|vol=mid|w=small|cash=ok": {
+   "q": [
+    -0.021961,
+    -0.042642,
+    -0.025731
+   ],
+   "visits": [
+    201,
+    132,
+    240
+   ]
+  },
+  "negative|vol=high|w=medium|cash=ok": {
+   "q": [
+    -0.315031,
+    -0.36336,
+    -0.241794
+   ],
+   "visits": [
+    291,
+    160,
+    390
+   ]
+  },
+  "negative|vol=high|w=near_cap|cash=ok": {
+   "q": [
+    -0.419944,
+    -0.342833,
+    -0.320528
+   ],
+   "visits": [
+    133,
+    162,
+    357
+   ]
+  },
+  "negative|vol=high|w=none|cash=ok": {
+   "q": [
+    -0.001457,
+    -0.189862,
+    0.005745
+   ],
+   "visits": [
+    1141,
+    364,
+    332
+   ]
+  },
+  "negative|vol=high|w=small|cash=ok": {
+   "q": [
+    -0.100789,
+    -0.244005,
+    -0.074103
+   ],
+   "visits": [
+    235,
+    248,
+    740
+   ]
+  },
+  "negative|vol=low|w=medium|cash=ok": {
+   "q": [
+    -0.172461,
+    -0.250298,
+    -0.084955
+   ],
+   "visits": [
+    201,
+    178,
+    589
+   ]
+  },
+  "negative|vol=low|w=near_cap|cash=ok": {
+   "q": [
+    -0.228486,
+    -0.277916,
+    -0.228939
+   ],
+   "visits": [
+    317,
+    216,
+    463
+   ]
+  },
+  "negative|vol=low|w=none|cash=ok": {
+   "q": [
+    0.01047,
+    -0.088417,
+    0.007795
+   ],
+   "visits": [
+    1384,
+    419,
+    271
+   ]
+  },
+  "negative|vol=low|w=small|cash=ok": {
+   "q": [
+    -0.114634,
+    -0.154377,
+    -0.048595
+   ],
+   "visits": [
+    274,
+    289,
+    973
+   ]
+  },
+  "negative|vol=mid|w=medium|cash=ok": {
+   "q": [
+    -0.207752,
+    -0.25618,
+    -0.167658
+   ],
+   "visits": [
+    202,
+    285,
+    569
+   ]
+  },
+  "negative|vol=mid|w=near_cap|cash=ok": {
+   "q": [
+    -0.275799,
+    -0.263265,
+    -0.1851
+   ],
+   "visits": [
+    255,
+    207,
+    428
+   ]
+  },
+  "negative|vol=mid|w=none|cash=ok": {
+   "q": [
+    -0.003588,
+    -0.161237,
+    -0.003357
+   ],
+   "visits": [
+    1452,
+    460,
+    438
+   ]
+  },
+  "negative|vol=mid|w=small|cash=ok": {
+   "q": [
+    -0.102018,
+    -0.258857,
+    -0.056122
+   ],
+   "visits": [
+    289,
+    273,
+    1013
+   ]
+  },
+  "neutral|vol=high|w=medium|cash=ok": {
+   "q": [
+    -0.069099,
+    -0.079141,
+    -0.015653
+   ],
+   "visits": [
+    137,
+    188,
+    258
+   ]
+  },
+  "neutral|vol=high|w=near_cap|cash=ok": {
+   "q": [
+    0.007604,
+    -0.075303,
+    0.001169
+   ],
+   "visits": [
+    107,
+    93,
+    207
+   ]
+  },
+  "neutral|vol=high|w=none|cash=ok": {
+   "q": [
+    0.008357,
+    -0.074155,
+    0.011426
+   ],
+   "visits": [
+    690,
+    251,
+    218
+   ]
+  },
+  "neutral|vol=high|w=small|cash=ok": {
+   "q": [
+    -0.048602,
+    -0.084936,
+    -0.020963
+   ],
+   "visits": [
+    281,
+    222,
+    288
+   ]
+  },
+  "neutral|vol=low|w=medium|cash=ok": {
+   "q": [
+    -0.014838,
+    -0.025537,
+    0.015336
+   ],
+   "visits": [
+    239,
+    134,
+    220
+   ]
+  },
+  "neutral|vol=low|w=near_cap|cash=ok": {
+   "q": [
+    -0.042859,
+    -0.040626,
+    -0.039874
+   ],
+   "visits": [
+    171,
+    181,
+    285
+   ]
+  },
+  "neutral|vol=low|w=none|cash=ok": {
+   "q": [
+    0.028787,
+    0.019991,
+    0.023324
+   ],
+   "visits": [
+    909,
+    265,
+    177
+   ]
+  },
+  "neutral|vol=low|w=small|cash=ok": {
+   "q": [
+    0.006498,
+    0.002834,
+    0.012562
+   ],
+   "visits": [
+    341,
+    202,
+    514
+   ]
+  },
+  "neutral|vol=mid|w=medium|cash=ok": {
+   "q": [
+    -0.07295,
+    -0.064649,
+    -0.045014
+   ],
+   "visits": [
+    240,
+    223,
+    306
+   ]
+  },
+  "neutral|vol=mid|w=near_cap|cash=ok": {
+   "q": [
+    -0.110494,
+    -0.098403,
+    -0.063663
+   ],
+   "visits": [
+    150,
+    186,
+    274
+   ]
+  },
+  "neutral|vol=mid|w=none|cash=ok": {
+   "q": [
+    0.004929,
+    -0.051384,
+    0.003465
+   ],
+   "visits": [
+    959,
+    324,
+    338
+   ]
+  },
+  "neutral|vol=mid|w=small|cash=ok": {
+   "q": [
+    -0.048002,
+    -0.035527,
+    -0.021048
+   ],
+   "visits": [
+    310,
+    252,
+    572
+   ]
+  },
+  "positive|vol=high|w=medium|cash=ok": {
+   "q": [
+    -0.003747,
+    -0.061378,
+    -0.031846
+   ],
+   "visits": [
+    308,
+    258,
+    355
+   ]
+  },
+  "positive|vol=high|w=near_cap|cash=ok": {
+   "q": [
+    0.112104,
+    0.070342,
+    0.066461
+   ],
+   "visits": [
+    145,
+    268,
+    203
+   ]
+  },
+  "positive|vol=high|w=none|cash=ok": {
+   "q": [
+    0.006892,
+    -0.000211,
+    0.015674
+   ],
+   "visits": [
+    735,
+    776,
+    221
+   ]
+  },
+  "positive|vol=high|w=small|cash=ok": {
+   "q": [
+    0.02318,
+    0.023974,
+    0.02582
+   ],
+   "visits": [
+    457,
+    445,
+    297
+   ]
+  },
+  "positive|vol=low|w=medium|cash=ok": {
+   "q": [
+    0.111306,
+    0.182571,
+    0.105083
+   ],
+   "visits": [
+    243,
+    564,
+    183
+   ]
+  },
+  "positive|vol=low|w=near_cap|cash=ok": {
+   "q": [
+    0.167961,
+    0.132311,
+    0.131926
+   ],
+   "visits": [
+    369,
+    354,
+    200
+   ]
+  },
+  "positive|vol=low|w=none|cash=ok": {
+   "q": [
+    0.041578,
+    0.096066,
+    0.046496
+   ],
+   "visits": [
+    437,
+    1431,
+    133
+   ]
+  },
+  "positive|vol=low|w=small|cash=ok": {
+   "q": [
+    0.111061,
+    0.089105,
+    0.043233
+   ],
+   "visits": [
+    601,
+    599,
+    263
+   ]
+  },
+  "positive|vol=mid|w=medium|cash=ok": {
+   "q": [
+    0.023316,
+    0.02794,
+    0.040622
+   ],
+   "visits": [
+    524,
+    290,
+    272
+   ]
+  },
+  "positive|vol=mid|w=near_cap|cash=ok": {
+   "q": [
+    0.06671,
+    0.080601,
+    0.17263
+   ],
+   "visits": [
+    293,
+    320,
+    277
+   ]
+  },
+  "positive|vol=mid|w=none|cash=ok": {
+   "q": [
+    0.021394,
+    0.012031,
+    0.011848
+   ],
+   "visits": [
+    1288,
+    869,
+    242
+   ]
+  },
+  "positive|vol=mid|w=small|cash=ok": {
+   "q": [
+    0.091201,
+    0.014066,
+    0.034207
+   ],
+   "visits": [
+    947,
+    416,
+    319
+   ]
+  }
+ },
+ "training": {
+  "run_seed": 0,
+  "config": {
+   "episodes_per_run": 6000,
+   "episode_length": 8,
+   "gamma": 0.9,
+   "alpha_min": 0.02,
+   "epsilon_start": 1.0,
+   "epsilon_end": 0.05,
+   "downside_penalty": 0.5,
+   "reward_scale": 100.0,
+   "run_seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "deployed_run_seed": 0,
+   "eval_episodes": 400,
+   "eval_seed_base": 900000000
+  },
+  "env": {
+   "sigmas": [
+    0.008,
+    0.02,
+    0.04
+   ],
+   "drift": 0.012,
+   "headline_match_prob": 0.7
+  }
+ }
+}

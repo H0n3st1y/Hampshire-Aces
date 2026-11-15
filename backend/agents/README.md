@@ -20,7 +20,7 @@ python -m unittest discover -s backend/agents/tests -t .
 python -m backend.agents.examples
 ```
 
-## Input shapes (provisional until contracts/agents-v1.md exists)
+## Input shapes (contract v1: see contracts/agents-v1.md; local fixtures also accepted)
 
 All parsing goes through `_common.normalize_observation`, the single place to
 adapt once Codex freezes `backend/contracts.py`. Missing fields degrade to
@@ -68,7 +68,9 @@ evidence IDs. Hold is always `{type:"hold", symbol:null, quantity:0}`.
   tone present; all neutral → neutral.
 - **Strategy (fixed rule):** positive → buy one step; negative → sell one step
   (≤ held); otherwise hold. It deliberately does not check the 20% cap; the
-  gate does. `AGENTS_POLICY=rl` currently warns and stays `rule_based`.
+  gate does. With `AGENTS_POLICY=rl` it uses the trained artifact in
+  `research/artifacts/q_policy_v1.json` via `rl_policy.py` (see research/README.md),
+  falling back to the rule with a warning when the artifact or state is unusable.
 - **Coach:** picks one concept from the recorded facts — unavailable →
   `missing_data`; blocked by weight/cap → `concentration`; other block →
   `trade_constraints`; mixed sentiment → `conflicting_sentiment`; volatility

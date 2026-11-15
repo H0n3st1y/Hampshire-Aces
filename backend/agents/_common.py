@@ -169,7 +169,10 @@ def normalize_observation(observation: Any) -> tuple[dict, list[str]]:
             "permitted_symbols": permitted_symbols,
             "permitted_actions": permitted_actions,
             "focus_symbol": focus,
-            "price_history": raw.get("price_history") or raw.get("prices") or {},
+            # Contract v1 uses historical_prices_cents (list for the single permitted
+            # instrument); a {symbol: [...]} mapping is still accepted for local fixtures.
+            "price_history": raw.get("historical_prices_cents") or raw.get("price_history") or {},
+            "action_quantity": _positive_int_or_none(permitted.get("action_quantity")),
         },
         warnings,
     )
@@ -191,7 +194,12 @@ def _empty_normalized() -> dict:
         "permitted_actions": [],
         "focus_symbol": None,
         "price_history": {},
+        "action_quantity": None,
     }
+
+
+def _positive_int_or_none(value: Any) -> int | None:
+    return value if _is_positive_int(value) else None
 
 
 def current_price_cents(norm: dict, symbol: str | None) -> int | None:
@@ -202,7 +210,10 @@ def current_price_cents(norm: dict, symbol: str | None) -> int | None:
         if pos.get("symbol") == symbol and _is_positive_int(pos.get("price_cents")):
             return pos["price_cents"]
     history = norm["price_history"]
-    series = history.get(symbol) if isinstance(history, dict) else None
+    if isinstance(history, list):
+        series = history if (not norm["permitted_symbols"] or symbol in norm["permitted_symbols"]) else None
+    else:
+        series = history.get(symbol) if isinstance(history, dict) else None
     if isinstance(series, list) and series:
         last = series[-1]
         price = last.get("price_cents") if isinstance(last, dict) else last

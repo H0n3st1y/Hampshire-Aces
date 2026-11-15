@@ -1,0 +1,140 @@
+{
+ "config": {
+  "episodes_per_run": 6000,
+  "episode_length": 8,
+  "gamma": 0.9,
+  "alpha_min": 0.02,
+  "epsilon_start": 1.0,
+  "epsilon_end": 0.05,
+  "downside_penalty": 0.5,
+  "reward_scale": 100.0,
+  "run_seeds": [
+   0,
+   1,
+   2,
+   3,
+   4
+  ],
+  "deployed_run_seed": 0,
+  "eval_episodes": 400,
+  "eval_seed_base": 900000000
+ },
+ "rl_runs": [
+  {
+   "policy": "rl",
+   "episodes": 400,
+   "decisions": 3200,
+   "mean_return": 0.000631275000000004,
+   "median_return": 0.0,
+   "p10_return": -0.0037960000000000216,
+   "mean_max_drawdown": 0.0021676818170876626,
+   "worst_max_drawdown": 0.01775474688159289,
+   "mean_trades_per_episode": 2.645,
+   "mean_shares_traded_per_episode": 11.445,
+   "blocked_proposals": 21,
+   "rl_fallback_decisions": 0,
+   "run_seed": 0,
+   "states_learned": 48
+  },
+  {
+   "policy": "rl",
+   "episodes": 400,
+   "decisions": 3200,
+   "mean_return": 0.0004912224999999959,
+   "median_return": 0.0,
+   "p10_return": -0.005406000000000022,
+   "mean_max_drawdown": 0.002725926909688459,
+   "worst_max_drawdown": 0.026887,
+   "mean_trades_per_episode": 3.59,
+   "mean_shares_traded_per_episode": 15.8525,
+   "blocked_proposals": 71,
+   "rl_fallback_decisions": 0,
+   "run_seed": 1,
+   "states_learned": 48
+  },
+  {
+   "policy": "rl",
+   "episodes": 400,
+   "decisions": 3200,
+   "mean_return": 0.0004363525000000004,
+   "median_return": 0.0,
+   "p10_return": -0.004654999999999965,
+   "mean_max_drawdown": 0.0029532926079547063,
+   "worst_max_drawdown": 0.03326284437825763,
+   "mean_trades_per_episode": 2.8125,
+   "mean_shares_traded_per_episode": 12.55,
+   "blocked_proposals": 97,
+   "rl_fallback_decisions": 0,
+   "run_seed": 2,
+   "states_learned": 48
+  },
+  {
+   "policy": "rl",
+   "episodes": 400,
+   "decisions": 3200,
+   "mean_return": 0.0008571524999999977,
+   "median_return": 0.0,
+   "p10_return": -0.0034520000000000106,
+   "mean_max_drawdown": 0.002498832433270492,
+   "worst_max_drawdown": 0.026887,
+   "mean_trades_per_episode": 3.355,
+   "mean_shares_traded_per_episode": 14.7675,
+   "blocked_proposals": 73,
+   "rl_fallback_decisions": 0,
+   "run_seed": 3,
+   "states_learned": 48
+  },
+  {
+   "policy": "rl",
+   "episodes": 400,
+   "decisions": 3200,
+   "mean_return": 0.0009611125000000014,
+   "median_return": 0.0007889999999999286,
+   "p10_return": -0.0048719999999999875,
+   "mean_max_drawdown": 0.002964759289421322,
+   "worst_max_drawdown": 0.02470595881453938,
+   "mean_trades_per_episode": 4.28,
+   "mean_shares_traded_per_episode": 19.745,
+   "blocked_proposals": 23,
+   "rl_fallback_decisions": 0,
+   "run_seed": 4,
+   "states_learned": 48
+  }
+ ],
+ "rl_mean_return_range": [
+  0.0004363525000000004,
+  0.0009611125000000014
+ ],
+ "baselines": [
+  {
+   "policy": "rule",
+   "episodes": 400,
+   "decisions": 3200,
+   "mean_return": 0.0019222024999999976,
+   "median_return": 0.001274999999999915,
+   "p10_return": -0.006812999999999958,
+   "mean_max_drawdown": 0.005130525618924292,
+   "worst_max_drawdown": 0.030423488820005437,
+   "mean_trades_per_episode": 3.81,
+   "mean_shares_traded_per_episode": 17.86,
+   "blocked_proposals": 291,
+   "rl_fallback_decisions": null
+  },
+  {
+   "policy": "hold",
+   "episodes": 400,
+   "decisions": 3200,
+   "mean_return": 5.991750000000101e-05,
+   "median_return": 0.0,
+   "p10_return": -0.00879300000000005,
+   "mean_max_drawdown": 0.006583132078129107,
+   "worst_max_drawdown": 0.045310150469532656,
+   "mean_trades_per_episode": 0.0,
+   "mean_shares_traded_per_episode": 0.0,
+   "blocked_proposals": 0,
+   "rl_fallback_decisions": null
+  }
+ ],
+ "deployed_artifact": "research/artifacts/q_policy_v1.json (run seed 0, chosen before evaluation)",
+ "seconds": 317.6
+}
