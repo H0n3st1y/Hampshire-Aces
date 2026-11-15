@@ -15,15 +15,17 @@ Sizing: whole shares = step_value_cents // price_cents, where step_value_cents i
 taken from observation.action_settings.step_value_cents when Codex supplies it,
 else DEFAULT_STEP_FRACTION of the supplied total_value_cents.
 
-An RL policy can be selected later via AGENTS_POLICY=rl; until a trained artifact
-is integrated this falls back to the rule and says so. policy_mode is "rl" only
-when a real trained artifact produced the proposal.
+The trained RL artifact (research/artifacts/q_policy_v1.json) is the default
+policy; AGENTS_POLICY=rule_based selects the fixed rule. If the artifact or state
+is unusable the rule is used and a warning says so. policy_mode is "rl" only
+when the real trained artifact produced the proposal.
 """
 
 from __future__ import annotations
 
 import os
 
+from . import rl_policy
 from ._common import (
     DEFAULT_HIGH_VOLATILITY,
     DEFAULT_STEP_FRACTION,
@@ -44,6 +46,14 @@ def _shares(n: int) -> str:
 
 def _hold(reason: str) -> dict:
     return {"type": "hold", "symbol": None, "quantity": 0, "reason": reason}
+
+
+def _quantity(norm: dict, price: int) -> int | None:
+    """Contract v1: use permitted.action_quantity exactly. Legacy: value step // price."""
+    if norm["action_quantity"] is not None:
+        return norm["action_quantity"]
+    step = _step_value_cents(norm)
+    return None if step is None else step // price
 
 
 def _step_value_cents(norm: dict) -> int | None:
@@ -85,12 +95,11 @@ def _rule_proposal(norm: dict, label: str, limitations: list[str], warnings: lis
         warnings.append(f"No valid positive decision-time price for {symbol}; strategy proposed hold.")
         return _hold(f"Fixed rule: {symbol} has no valid price, so the rule holds.")
 
-    step = _step_value_cents(norm)
-    if step is None:
+    shares = _quantity(norm, price)
+    if shares is None:
         warnings.append("No sizing setting or portfolio value was supplied; strategy proposed hold.")
         return _hold("Fixed rule: the trade size could not be determined, so the rule holds.")
 
-    shares = step // price
     if label == "positive":
         if not _allowed(norm, "buy"):
             return _hold("Fixed rule: headlines read positive, but buying is not permitted here, so the rule holds.")
@@ -106,7 +115,7 @@ def _rule_proposal(norm: dict, label: str, limitations: list[str], warnings: lis
             "quantity": shares,
             "reason": (
                 f"Fixed rule: headlines read positive, so the rule proposes buying {shares} "
-                f"{_shares(shares)} of {symbol}, sized by a fixed step. It does not check the position "
+                f"{_shares(shares)} of {symbol}, sized by the scenario's fixed step. It does not check the position "
                 "cap; the risk gate does."
             ),
         }
@@ -124,13 +133,52 @@ def _rule_proposal(norm: dict, label: str, limitations: list[str], warnings: lis
         "quantity": qty,
         "reason": (
             f"Fixed rule: headlines read negative, so the rule proposes selling {qty} of the "
-            f"{held} {symbol} {_shares(held)} held, sized by a fixed step."
+            f"{held} {symbol} {_shares(held)} held, sized by the scenario's fixed step."
         ),
     }
 
 
+DEFAULT_POLICY = "rl"  # demo choice (user, 2026-11-14); AGENTS_POLICY=rule_based forces the fixed rule
+
+
 def _rl_requested() -> bool:
-    return os.environ.get("AGENTS_POLICY", "rule_based").strip().lower() == "rl"
+    return (os.environ.get("AGENTS_POLICY") or DEFAULT_POLICY).strip().lower() == "rl"
+
+
+def _rl_proposal(norm: dict, label: str, warnings: list[str]) -> tuple[dict, str] | None:
+    """Proposal from the trained artifact, or None (caller uses the fixed rule)."""
+    try:
+        artifact = rl_policy.load_artifact()
+    except rl_policy.ArtifactError as exc:
+        warnings.append(f"RL policy requested but unavailable; used the fixed rule instead. {exc}")
+        return None
+    symbol = norm["focus_symbol"]
+    price = current_price_cents(norm, symbol)
+    qty = norm["action_quantity"]
+    if not symbol or price is None or qty is None:
+        warnings.append("RL policy needs a symbol, valid price, and permitted.action_quantity; used the fixed rule instead.")
+        return None
+    held = held_quantity(norm, symbol)
+    key = rl_policy.state_key(
+        label, metric(norm, "daily_volatility"), metric(norm, "position_weight_before"),
+        norm["cash_cents"], norm["total_value_cents"],
+    )
+    choice = rl_policy.greedy_action(artifact, key, rl_policy.feasible_actions(held, norm["permitted_actions"]))
+    if choice is None:
+        warnings.append(f"RL policy has too little training experience for state {key}; used the fixed rule instead.")
+        return None
+    name = artifact.get("artifact_id", "unknown")
+    prefix = (
+        f"Trained tabular RL policy ({name}, learned on synthetic sequences) chose {choice} "
+        f"for state {key}. Its values estimate simulated reward, not a forecast"
+    )
+    if choice == "hold":
+        return _hold(prefix + "."), key
+    quantity = qty if choice == "buy" else min(held, qty)
+    return {
+        "type": choice, "symbol": symbol, "quantity": quantity,
+        "reason": prefix + "; the independent risk gate still decides.",
+    }, key
 
 
 def propose(observation, sentiment_result) -> dict:
@@ -149,15 +197,23 @@ def propose(observation, sentiment_result) -> dict:
         "Proposals are practice actions in a synthetic simulator, not investment advice.",
     ]
 
-    if _rl_requested():
-        warnings.append("RL policy was requested but no trained artifact is integrated; used the fixed rule instead.")
-
     label = sentiment.get("sentiment_label")
     if label not in ("positive", "negative", "neutral", "mixed", "insufficient"):
         warnings.append("Sentiment result was missing or invalid; strategy treated sentiment as insufficient.")
         label = "insufficient"
 
-    proposal = _rule_proposal(norm, label, limitations, warnings)
+    policy_mode = "rule_based"
+    rl = _rl_proposal(norm, label, warnings) if _rl_requested() else None
+    if rl is not None:
+        proposal, _ = rl
+        policy_mode = "rl"
+        limitations = [
+            "Tabular RL policy trained only on synthetic sequences; results do not transfer to real markets.",
+            "Proposals are practice actions in a synthetic simulator, not investment advice.",
+            "The policy's learned values are not an explanation of why it acted.",
+        ]
+    else:
+        proposal = _rule_proposal(norm, label, limitations, warnings)
 
     vol = metric(norm, "daily_volatility")
     weight = metric(norm, "position_weight_before")
@@ -179,13 +235,14 @@ def propose(observation, sentiment_result) -> dict:
     action_text = (
         "hold" if proposal["type"] == "hold" else f"{proposal['type']} {proposal['quantity']} {proposal['symbol']}"
     )
-    summary = f"Fixed rule proposes: {action_text}. Sentiment input: {label}."
+    who = "Trained RL policy" if policy_mode == "rl" else "Fixed rule"
+    summary = f"{who} proposes: {action_text}. Sentiment input: {label}."
     if context:
         summary += " Context: " + "; ".join(context) + "."
 
     return {
         "proposal": proposal,
         "specialist": specialist("strategy", summary, evidence, limitations),
-        "policy_mode": "rule_based",
+        "policy_mode": policy_mode,
         "warnings": warnings,
     }

@@ -104,10 +104,22 @@ class StrategyTests(unittest.TestCase):
         self.assertIn("h1", ids)
 
     def test_rl_request_without_artifact_stays_rule_based(self):
-        with mock.patch.dict("os.environ", {"AGENTS_POLICY": "rl"}):
+        with mock.patch.dict("os.environ", {"AGENTS_POLICY": "rl", "AGENTS_RL_ARTIFACT": "does/not/exist.json"}):
             r = _run(fixtures.get("positive"))
         self.assertEqual(r["policy_mode"], "rule_based")
-        self.assertTrue(any("RL policy was requested" in w for w in r["warnings"]))
+        self.assertTrue(any("RL policy requested but unavailable" in w for w in r["warnings"]))
+
+    def test_contract_action_quantity_is_used_exactly(self):
+        obs = fixtures.get("positive")
+        obs["permitted"]["action_quantity"] = 3
+        self.assertEqual(_run(obs)["proposal"]["quantity"], 3)
+
+    def test_contract_price_list_is_used(self):
+        obs = fixtures.get("positive")
+        obs.pop("price_history")
+        obs["historical_prices_cents"] = [12000, 12500]
+        obs["portfolio"]["positions"] = []
+        self.assertEqual(_run(obs)["proposal"]["type"], "buy")
 
     def test_future_data_cannot_change_proposal(self):
         obs = fixtures.get("positive")
@@ -123,7 +135,7 @@ class StrategyTests(unittest.TestCase):
         s = sentiment.analyze(obs)
         obs_before, s_before = fixtures.get("positive"), sentiment.analyze(fixtures.get("positive"))
         with mock.patch.object(builtins, "open", side_effect=AssertionError("file access")):
-            strategy.propose(obs, s)
+            strategy.propose(obs, s)  # rule_based mode reads no files
         self.assertEqual(obs, obs_before)
         self.assertEqual(s, s_before)
 

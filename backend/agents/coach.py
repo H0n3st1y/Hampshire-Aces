@@ -115,8 +115,12 @@ def _concentration_lesson(facts, gate, metrics, comparison) -> dict:
     before = format_fraction(metrics.get("position_weight_before"))
     proposed = metrics.get("position_weight_proposed")
     cap = format_fraction(gate.get("max_position_weight"))
+    proposed_text = format_fraction(proposed)
+    if _num(proposed) is not None and proposed_text == cap:
+        # Rounds to the cap at display precision but is above it once the fee is included.
+        proposed_text = f"just over {cap} (the fixed trading fee tips it over)"
     weight_text = (
-        f"would have moved this holding from {before} to {format_fraction(proposed)} of the portfolio after costs"
+        f"would have moved this holding from {before} to {proposed_text} of the portfolio after costs"
         if _num(proposed) is not None
         else f"would have increased a holding that is already {before} of the portfolio"
     )
@@ -195,11 +199,16 @@ def _volatility_lesson(facts, gate, metrics, comparison) -> dict:
     )
 
 
+def _hold_outcome(comparison: dict) -> str:
+    """An allowed hold is 'executed' as no trade; state the hold value without implying a block."""
+    return f"At the next synthetic price, holding ends at {format_cents(comparison.get('end_value_if_hold_cents'))}."
+
+
 def _holding_lesson(facts, gate, comparison) -> dict:
     return _lesson(
         "holding",
         f"{_actor(facts) if facts.get('action') != 'strategy' else 'The strategy'} made no trade. "
-        f"{_gate_sentence(gate)} {_outcome_sentence(comparison, 'blocked')} "
+        f"{_gate_sentence(gate)} {_hold_outcome(comparison)} "
         "Holding avoids trading costs, but the portfolio's value can still change with prices.",
         "Is holding (making no trade) a real investment decision?",
         [
